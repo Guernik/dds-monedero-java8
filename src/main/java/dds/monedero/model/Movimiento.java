@@ -48,6 +48,12 @@ public class Movimiento {
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
 
+  
+  /*
+   * Todo esto huele mal.
+   * Debería ser responsabilidad de la cuenta calcular su valor, no del movimiento.
+   * Además, el if se debería poder eliminar (todavía no se como)
+   * */
   public double calcularValor(Cuenta cuenta) {
     if (esDeposito) {
       return cuenta.getSaldo() + getMonto();

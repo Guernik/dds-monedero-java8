@@ -54,6 +54,12 @@ public class Cuenta {
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
   }
 
+  
+  /*
+   * ¿Es responsabilidad de este método crear el movimiento?
+   * ¿Si lo que yo quiero es _agregar un un movimiento_, no deberia pasar el movimiento
+   * como parámetro?
+   */
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
     Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
     movimientos.add(movimiento);
