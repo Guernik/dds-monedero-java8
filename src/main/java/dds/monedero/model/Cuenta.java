@@ -64,6 +64,10 @@ public class Cuenta {
 		// copio el movimiento
 		Movimiento new_mov = new Movimiento(mov.getFecha(), mov.getMonto(), mov.isDeposito());
 		movimientos.add(new_mov);
+		
+		// debo actualizar el saldo
+		int mult = mov.isDeposito() ? 1 : -1;
+		this.saldo = (mult * mov.getMonto()) + this.saldo;
 	}
 
 	public double getMontoExtraidoA(LocalDate fecha) {

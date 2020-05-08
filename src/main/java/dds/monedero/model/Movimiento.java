@@ -46,20 +46,8 @@ public class Movimiento {
 	}
 
 	public void agregateA(Cuenta cuenta) {
-		cuenta.setSaldo(calcularValor(cuenta));
 		cuenta.agregarMovimiento(this);
 	}
 
-	/*
-	 * Todo esto huele mal. Debería ser responsabilidad de la cuenta calcular su
-	 * valor, no del movimiento. Además, el if se debería poder eliminar (todavía no
-	 * se como) Code Smell => Feature Envy Code Smell => type test
-	 */
-	public double calcularValor(Cuenta cuenta) {
-		if (esDeposito) {
-			return cuenta.getSaldo() + getMonto();
-		} else {
-			return cuenta.getSaldo() - getMonto();
-		}
-	}
+	
 }
