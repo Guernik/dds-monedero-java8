@@ -31,7 +31,7 @@ public class Cuenta {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
 
-    if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
+    if (getMovimientos().stream().filter(Movimiento::isDeposito).count() >= 3) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
 
@@ -59,6 +59,7 @@ public class Cuenta {
    * ¿Es responsabilidad de este método crear el movimiento?
    * ¿Si lo que yo quiero es _agregar un un movimiento_, no deberia pasar el movimiento
    * como parámetro?
+   * Code Smell => Long parameter List
    */
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
     Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
