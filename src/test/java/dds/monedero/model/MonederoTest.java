@@ -17,8 +17,16 @@ public class MonederoTest {
   }
 
   @Test
-  public void Poner() {
+  public void test_poner_1500() {
     cuenta.poner(1500);
+    assert(cuenta.getSaldo() == 1500);
+  }
+  
+  @Test
+  public void test_poner_1000_y_sacar_1000() {
+    cuenta.poner(1000);
+    cuenta.sacar(1000);
+    assert(cuenta.getSaldo() == 0);
   }
 
   @Test(expected = MontoNegativoException.class)
