@@ -35,7 +35,7 @@ public class Cuenta {
 			throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
 		}
 
-		new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+		new Movimiento(LocalDate.now(), cuanto, new MovTypeDepositoStrat()).agregateA(this);
 	}
 
 	public void sacar(double cuanto) {
@@ -51,22 +51,18 @@ public class Cuenta {
 			throw new MaximoExtraccionDiarioException(
 					"No puede extraer mas de $ " + 1000 + " diarios, límite: " + limite);
 		}
-		new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+		new Movimiento(LocalDate.now(), cuanto, new MovTypeExtraccionStrat()).agregateA(this);
 	}
 
-	/*
-	 * ¿Es responsabilidad de este método crear el movimiento? ¿Si lo que yo quiero
-	 * es _agregar un un movimiento_, no deberia pasar el movimiento como parámetro?
-	 * Code Smell => Long parameter List
-	 */
+
 	public void agregarMovimiento(Movimiento mov) {
 
-		// copio el movimiento
-		Movimiento new_mov = new Movimiento(mov.getFecha(), mov.getMonto(), mov.isDeposito());
+		//  "copio" el movimiento (ojo con la fecha)
+		Movimiento new_mov = new Movimiento(mov.getFecha(), mov.getMonto(), mov.getMovTypeStrat());
 		movimientos.add(new_mov);
 		
 		// debo actualizar el saldo
-		int mult = mov.isDeposito() ? 1 : -1;
+		int mult = mov.getMovTypeMultiplier();
 		this.saldo = (mult * mov.getMonto()) + this.saldo;
 	}
 

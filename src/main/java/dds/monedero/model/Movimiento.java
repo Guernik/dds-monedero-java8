@@ -8,13 +8,15 @@ public class Movimiento {
 	// el mundo real
 	// siempre usen numeros de precision arbitraria, como BigDecimal en Java y
 	// similares
-	private double monto;
-	private boolean esDeposito;
+	private double monto;	
+	private IMovementType movTypeStrategy;
+	
 
-	public Movimiento(LocalDate fecha, double monto, boolean esDeposito) {
+	public Movimiento(LocalDate fecha, double monto, IMovementType mov_type_strat) {
 		this.fecha = fecha;
 		this.monto = monto;
-		this.esDeposito = esDeposito;
+		this.movTypeStrategy = mov_type_strat;
+
 	}
 
 	public double getMonto() {
@@ -23,6 +25,14 @@ public class Movimiento {
 
 	public LocalDate getFecha() {
 		return fecha;
+	}
+	
+	public Boolean isDeposito() {
+		return this.movTypeStrategy.isDeposito();
+	}
+	
+	public Boolean isExtraccion() {
+		return this.movTypeStrategy.isExtraccion();
 	}
 
 	public boolean fueDepositado(LocalDate fecha) {
@@ -37,16 +47,19 @@ public class Movimiento {
 		return this.fecha.equals(fecha);
 	}
 
-	public boolean isDeposito() {
-		return esDeposito;
+	
+	public int getMovTypeMultiplier() {
+		return this.movTypeStrategy.getMovTypeMult();
 	}
-
-	public boolean isExtraccion() {
-		return !esDeposito;
-	}
+	
 
 	public void agregateA(Cuenta cuenta) {
 		cuenta.agregarMovimiento(this);
+	}
+	
+	public IMovementType getMovTypeStrat() {
+		// la mov strategy es inmutable así que me animo a esto.
+		return this.movTypeStrategy;
 	}
 
 	
